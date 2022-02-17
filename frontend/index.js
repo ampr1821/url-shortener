@@ -11,7 +11,7 @@ btn.addEventListener("click", () => {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var json = JSON.parse(xhr.responseText);
-            document.getElementById("label").innerHTML = json.shortened_url;
+            document.getElementById("label").innerHTML = '<a href=\'' + json.shortened_url + '\'>' + json.shortened_url + '</a>';
         }
     };
     xhr.send(dataJson);
