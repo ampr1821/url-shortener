@@ -26,7 +26,7 @@ function map_(url) {
 			flag = true;
 		}
 	}
-	
+
 	if(!flag) {
 		shortened_url = genShortenedUrl();
 	}
@@ -56,5 +56,5 @@ app.post('/', (req, res) => {
 })
 
 app.listen(port, () => {
-	console.log('Listening on port ' + port);
+	console.log('Listening on http://127.0.0.1:' + port);
 });
