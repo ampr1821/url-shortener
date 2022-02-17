@@ -4,7 +4,24 @@ const app = express();
 const port = 9000;
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'frontend')))
+app.use(express.static(path.join(__dirname, 'frontend')));
+
+function getRand(lim) {
+	return Math.floor(Math.random() * lim);
+}
+
+function genShortenedUrl(url) {
+	let url_ = '';
+	let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	for(let x = 1; x <= 6; x++) {
+		url_ += possible[Math.floor(Math.random() * possible.length)];
+	}
+	return 'http://127.0.0.1:' + port.toString() + '/' + url_;
+}
+
+app.get('/:id', function(req, res){
+	res.send('The id you specified is ' + req.params.id);
+});
 
 app.get('/', (req, res) => {
 	res.sendFile('index.html')
@@ -13,7 +30,9 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
 	console.log(req.body);
-	res.send("{\"done\" : 1}")
+	shortened_url = genShortenedUrl('');
+	console.log(shortened_url);
+	res.send("{\"shortened_url\" : \"" + shortened_url + "\"}");
 })
 
 app.listen(port, () => {
