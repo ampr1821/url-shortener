@@ -4,17 +4,14 @@ const JSONdb = require('simple-json-db');
 const app = express();
 const db = new JSONdb('./map.json');
 const port = 9000;
+const server_url = 'http://127.0.0.1:' + port.toString() + '/';
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'frontend')));
 
 function genShortenedUrl() {
-	let url_ = '';
-	let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-	for(let x = 1; x <= 6; x++) {
-		url_ += possible[Math.floor(Math.random() * possible.length)];
-	}
-	return 'http://127.0.0.1:' + port.toString() + '/' + url_;
+	let url_ = server_url + Math.random().toString(36).substring(2, 13);
+	return url_;
 }
 
 function map_(url) {
@@ -36,7 +33,7 @@ function map_(url) {
 }
 
 app.get('/:id', function(req, res){
-	shortened_url_ = 'http://127.0.0.1:' + port + '/' + req.params.id;
+	shortened_url_ = server_url + req.params.id;
 	let exists_ = db.has(shortened_url_);
 	if(exists_) {
 		res.redirect(db.get(shortened_url_));
@@ -47,7 +44,7 @@ app.get('/:id', function(req, res){
 });
 
 app.get('/', (req, res) => {
-	res.sendFile('index.html')
+	res.sendFile('index.html');
 });
 
 app.post('/', (req, res) => {
@@ -56,5 +53,5 @@ app.post('/', (req, res) => {
 })
 
 app.listen(port, () => {
-	console.log('Listening on http://127.0.0.1:' + port);
+	console.log('Listening on ' + server_url);
 });
