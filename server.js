@@ -28,6 +28,9 @@ function map_(url) {
 		shortened_url = genShortenedUrl();
 	}
 
+	if(!(url.startsWith('http://') || url.startsWith('https://')))
+		url = 'https://' + url;
+
 	db.set(shortened_url, url);
 	return shortened_url;
 }
