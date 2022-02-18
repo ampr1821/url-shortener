@@ -58,3 +58,9 @@ app.post('/', (req, res) => {
 app.listen(port, () => {
 	console.log('Listening on ' + server_url);
 });
+
+process.on('SIGINT', () => {
+	console.log("Stopping the server...");
+	db.sync();
+	process.exit(0);
+});
