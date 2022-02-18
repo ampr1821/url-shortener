@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const JSONdb = require('simple-json-db');
 const app = express();
-const db = new JSONdb('./map.json');
+const db = new JSONdb(__dirname + '/map.json');
 const port = 9000;
 const server_url = 'http://127.0.0.1:' + port.toString() + '/';
 
@@ -17,6 +17,10 @@ function genShortenedUrl() {
 function map_(url) {
 	let shortened_url = '';
 	let flag = false;
+
+	if(!(url.startsWith('http://') || url.startsWith('https://')))
+		url = 'https://' + url;
+
 	for (i in db.JSON()) {
 		if(db.get(i) == url) {
 			shortened_url = i;
@@ -27,9 +31,6 @@ function map_(url) {
 	if(!flag) {
 		shortened_url = genShortenedUrl();
 	}
-
-	if(!(url.startsWith('http://') || url.startsWith('https://')))
-		url = 'https://' + url;
 
 	db.set(shortened_url, url);
 	return shortened_url;
