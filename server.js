@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'frontend')));
 
 function genShortenedUrl() {
-	let url_ = server_url + Math.random().toString(36).substring(2, 8);
+	let url_ = Math.random().toString(36).substring(2, 8);
 	return url_;
 }
 
@@ -37,7 +37,7 @@ function map_(url) {
 }
 
 app.get('/:id', function(req, res){
-	shortened_url_ = server_url + req.params.id;
+	shortened_url_ = req.params.id;
 	let exists_ = db.has(shortened_url_);
 	if(exists_) {
 		res.redirect(db.get(shortened_url_));
@@ -53,7 +53,7 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
 	shortened_url = map_(req.body.url);
-	res.send("{\"shortened_url\" : \"" + shortened_url + "\"}");
+	res.send("{\"shortened_url\" : \"" + server_url + shortened_url + "\"}");
 })
 
 app.listen(port, () => {
