@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'frontend')));
 
 function genShortenedUrl() {
-	let url_ = server_url + Math.random().toString(36).substring(2, 13);
+	let url_ = server_url + Math.random().toString(36).substring(2, 8);
 	return url_;
 }
 
