@@ -52,9 +52,14 @@ app.get('/', (req, res) => {
 });
 
 app.post('/', (req, res) => {
-	shortened_url = map_(req.body.url);
-	res.send("{\"shortened_url\" : \"" + server_url + shortened_url + "\"}");
-})
+	if(req.body.url != '') {
+		shortened_url = map_(req.body.url);
+		res.send("{\"shortened_url\" : \"" + server_url + shortened_url + "\"}");
+	}
+	else {
+		res.send("{\"shortened_url\" : \"\"}");
+	}
+});
 
 app.listen(port, () => {
 	console.log('Listening on ' + server_url);
