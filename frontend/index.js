@@ -1,6 +1,7 @@
 var xhr = new XMLHttpRequest();
 var btn = document.getElementById('button');
-var url = 'http://127.0.0.1:9000/';
+// var url = 'http://ec2-3-83-235-20.compute-1.amazonaws.com:8080/';
+var url = window.location.href;
 
 btn.addEventListener("click", () => {
 	data = document.getElementById("submit").value;
