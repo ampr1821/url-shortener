@@ -4,7 +4,7 @@ const JSONdb = require('simple-json-db');
 const app = express();
 const db = new JSONdb(__dirname + '/map.json');
 const port = 9000;
-const server_url = 'http://127.0.0.1:' + port.toString() + '/';
+const server_url = 'http://' + process.argv[2] + ':' + 8080 + '/';
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'frontend')));
