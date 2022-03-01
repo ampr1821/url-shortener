@@ -7,7 +7,7 @@ const port = 9000;
 const server_url = 'http://' + process.argv[2] + ':' + 8080 + '/';
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'frontend')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 function genShortenedUrl() {
 	let url_ = Math.random().toString(36).substring(2, 8);
