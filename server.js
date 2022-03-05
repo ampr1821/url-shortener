@@ -4,7 +4,6 @@ const JSONdb = require('simple-json-db');
 const app = express();
 const db = new JSONdb(__dirname + '/map.json');
 const port = 9000;
-const server_url = 'http://' + process.argv[2] + ':' + 8080 + '/';
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -62,7 +61,7 @@ app.post('/', (req, res) => {
 });
 
 app.listen(port, () => {
-	console.log('Listening on ' + server_url);
+	console.log('Listening on ' + port);
 });
 
 process.on('SIGINT', () => {

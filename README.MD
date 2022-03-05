@@ -7,7 +7,7 @@ This is a simple URL Shortener built using Node JS.
 Git clone the above repository and run the command:
 
 ```bash
-node server.js
+node server.js 127.0.0.1
 ```
 
 Press Ctrl + C to shutdown the server.
