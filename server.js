@@ -1,12 +1,22 @@
 const express = require('express');
 const path = require('path');
 const JSONdb = require('simple-json-db');
+const https = require('https');
+const fs = require('fs');
 const app = express();
 const db = new JSONdb(__dirname + '/map.json');
-const port = 9000;
+const port = 443;
+const server_url = 'https://localhost/';
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+
+const options = {
+	key: fs.readFileSync('server.key'),
+	cert: fs.readFileSync('server.crt')
+};
+
+const server = https.createServer(options, app);
 
 function genShortenedUrl() {
 	let url_ = Math.random().toString(36).substring(2, 8);
@@ -17,17 +27,17 @@ function map_(url) {
 	let shortened_url = '';
 	let flag = false;
 
-	if(!(url.startsWith('http://') || url.startsWith('https://')))
+	if (!(url.startsWith('http://') || url.startsWith('https://')))
 		url = 'https://' + url;
 
 	for (i in db.JSON()) {
-		if(db.get(i) == url) {
+		if (db.get(i) == url) {
 			shortened_url = i;
 			flag = true;
 		}
 	}
 
-	if(!flag) {
+	if (!flag) {
 		shortened_url = genShortenedUrl();
 	}
 
@@ -35,10 +45,10 @@ function map_(url) {
 	return shortened_url;
 }
 
-app.get('/:id', function(req, res){
+app.get('/:id', function (req, res) {
 	shortened_url_ = req.params.id;
 	let exists_ = db.has(shortened_url_);
-	if(exists_) {
+	if (exists_) {
 		res.redirect(db.get(shortened_url_));
 	}
 	else {
@@ -51,7 +61,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/', (req, res) => {
-	if(req.body.url != '') {
+	if (req.body.url != '') {
 		shortened_url = map_(req.body.url);
 		res.send("{\"shortened_url\" : \"" + server_url + shortened_url + "\"}");
 	}
@@ -60,7 +70,7 @@ app.post('/', (req, res) => {
 	}
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
 	console.log('Listening on ' + port);
 });
 

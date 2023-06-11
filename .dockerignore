@@ -1,4 +1,5 @@
-map.json
 node_modules/
+README.MD
+Dockerfile
 server.crt
 server.key
